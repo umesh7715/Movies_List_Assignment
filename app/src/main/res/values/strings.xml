@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Movies List Assignment</string>
+    <string name="navigation_drawer_header_title">Title</string>
+
+    <string name="movies_navigation_item">Movies</string>
+    <string name="movies_list">Searched Movies</string>
+    <string name="movie_details">Movie Details</string>
+    <string name="password_hint">Type your password</string>
+    <string name="username_hint">Type your username</string>
+    <string name="login">Login</string>
+    <string name="password_label">Password</string>
+    <string name="username_label">Username</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="new_user_resister">New User? Resister</string>
+    <string name="register">Register</string>
+    <string name="confirm_your_password">Confirm Password</string>
+</resources>
