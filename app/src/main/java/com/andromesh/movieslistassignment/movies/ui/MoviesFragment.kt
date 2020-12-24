@@ -33,22 +33,24 @@ class MoviesFragment : Fragment(), Injectable {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private val linearDecoration: RecyclerView.ItemDecoration by lazy {
         VerticalItemDecoration(
-                resources.getDimension(R.dimen.margin_normal).toInt())
+            resources.getDimension(R.dimen.margin_normal).toInt()
+        )
     }
 
     private lateinit var gridLayoutManager: GridLayoutManager
     private val gridDecoration: RecyclerView.ItemDecoration by lazy {
         GridSpacingItemDecoration(
-                SPAN_COUNT, resources.getDimension(R.dimen.margin_grid).toInt())
+            SPAN_COUNT, resources.getDimension(R.dimen.margin_grid).toInt()
+        )
     }
 
     private var isLinearLayoutManager: Boolean = false
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         moviesViewModel = injectViewModel(viewModelFactory)
@@ -65,16 +67,18 @@ class MoviesFragment : Fragment(), Injectable {
         binding.rvMovies.adapter = adapter
         subscribeUi(adapter)
 
-        binding.searchView.setOnQueryTextListener(object : androidx.appcompat.widget.SearchView.OnQueryTextListener {
+        binding.searchView.setOnQueryTextListener(object :
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText!!.length >= 3) {
+                if (newText!!.isNotEmpty()) {
                     moviesViewModel.searchFilterText.value = newText
-                    moviesViewModel.connectivityAvailable = ConnectivityUtil.isConnected(requireContext())
                 }
+                moviesViewModel.connectivityAvailable =
+                    ConnectivityUtil.isConnected(requireContext())
                 return true
             }
         })
@@ -102,7 +106,7 @@ class MoviesFragment : Fragment(), Injectable {
         // If a layout manager has already been set, get current scroll position.
         if (recyclerView.layoutManager != null) {
             scrollPosition = (recyclerView.layoutManager as LinearLayoutManager)
-                    .findFirstCompletelyVisibleItemPosition()
+                .findFirstCompletelyVisibleItemPosition()
         }
 
         if (isLinearLayoutManager) {

@@ -17,7 +17,7 @@ class MoviesViewModel @Inject constructor(private val movieRepository: MovieRepo
     var connectivityAvailable: Boolean = false
 
 
-    var searchFilterText = MutableLiveData("hero")
+    var searchFilterText = MutableLiveData("")
 
     val moviesList = Transformations.switchMap(searchFilterText) { input ->
         movieRepository.observerPagedMovies(

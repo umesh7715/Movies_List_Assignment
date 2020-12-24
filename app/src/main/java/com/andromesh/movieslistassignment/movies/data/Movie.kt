@@ -1,5 +1,6 @@
 package com.andromesh.movieslistassignment.movies.data
 
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
@@ -13,14 +14,11 @@ data class Movie(
     @field:SerializedName("adult")
     val adult: Boolean,
 
-    @NotNull
-    @field:SerializedName("backdrop_path")
-    val backdrop_path: String,
 
     @NotNull
     @PrimaryKey
     @field:SerializedName("id")
-    val id: String,
+    val id: Int,
 
     @NotNull
     @field:SerializedName("original_language")
@@ -44,12 +42,15 @@ data class Movie(
 
     @NotNull
     @field:SerializedName("vote_count")
-    val vote_count: Int
+    val vote_count: Int,
+
+    @Nullable
+    var isFavorite: Boolean
 
 
 ) {
     override fun toString(): String {
-        return "Movie(adult=$adult, backdrop_path='$backdrop_path', id='$id', original_language='$original_language', original_title='$original_title', overview='$overview', poster_path='$poster_path', title='$title', vote_count=$vote_count)"
+        return "Movie(adult=$adult,  id='$id', original_language='$original_language', original_title='$original_title', overview='$overview', poster_path='$poster_path', title='$title', vote_count=$vote_count)"
     }
 
     init {

@@ -1,12 +1,8 @@
-package com.andromesh.my_portfolio.movies.data
+package com.andromesh.movieslistassignment.movies.data
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
 import androidx.paging.PagedList
-import com.andromesh.movieslistassignment.movies.data.Movie
-import com.andromesh.movieslistassignment.movies.data.MovieDao
-import com.andromesh.movieslistassignment.movies.data.MoviePagedDataSource
-import com.andromesh.movieslistassignment.movies.data.MovieRemoteDataSource
 import kotlinx.coroutines.CoroutineScope
 import javax.inject.Inject
 

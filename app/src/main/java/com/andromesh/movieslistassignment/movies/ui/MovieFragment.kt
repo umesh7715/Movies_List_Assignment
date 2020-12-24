@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.andromesh.movieslistassignment.MainActivity
+import com.andromesh.movieslistassignment.database.Result
 import com.andromesh.movieslistassignment.databinding.MovieFragmentBinding
 import com.andromesh.movieslistassignment.di.Injectable
 import com.andromesh.movieslistassignment.di.injectViewModel
@@ -15,7 +16,6 @@ import com.andromesh.movieslistassignment.ui_utils.hide
 import com.andromesh.movieslistassignment.ui_utils.show
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
-import com.andromesh.movieslistassignment.database.Result
 
 class MovieFragment : Fragment(), Injectable {
 
@@ -23,23 +23,24 @@ class MovieFragment : Fragment(), Injectable {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var movieViewModel: MovieViewModel
 
-    private lateinit var imdbId: String
+    private lateinit var id: Number
 
     private lateinit var binding: MovieFragmentBinding
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
-        imdbId = arguments?.let { MovieFragmentArgs.fromBundle(it).imdbID }.toString()
-        (activity as MainActivity).supportActionBar?.title = arguments?.let { MovieFragmentArgs.fromBundle(it).name }
+        id = arguments?.let { MovieFragmentArgs.fromBundle(it).id }!!
+        (activity as MainActivity).supportActionBar?.title =
+            arguments?.let { MovieFragmentArgs.fromBundle(it).name }
 
 
         movieViewModel = injectViewModel(viewModelFactory)
-        movieViewModel.imDBID = imdbId
+        movieViewModel.id = id as Int
 
         binding = MovieFragmentBinding.inflate(inflater, container, false)
         context ?: return binding.root

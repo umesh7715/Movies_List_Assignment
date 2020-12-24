@@ -1,20 +1,24 @@
 package com.andromesh.movieslistassignment.movies.data
 
 import androidx.paging.PageKeyedDataSource
+import com.andromesh.movieslistassignment.database.Result
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import com.andromesh.movieslistassignment.database.Result
 
 class MoviePagedDataSource @Inject constructor(
     private val searchText: String,
     private val dataSource: MovieRemoteDataSource,
     private val dao: MovieDao,
-    private val scope: CoroutineScope) : PageKeyedDataSource<Int, Movie>() {
+    private val scope: CoroutineScope
+) : PageKeyedDataSource<Int, Movie>() {
 
-    override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
+    override fun loadInitial(
+        params: LoadInitialParams<Int>,
+        callback: LoadInitialCallback<Int, Movie>
+    ) {
         fetchData(1, params.requestedLoadSize) {
             callback.onResult(it, null, 2)
         }
@@ -36,7 +40,13 @@ class MoviePagedDataSource @Inject constructor(
 
     private fun fetchData(page: Int, pageSize: Int, callback: (List<Movie>) -> Unit) {
         scope.launch(getJobErrorHandler()) {
-            val response = dataSource.fetchMovies(searchText, page)
+
+
+            val response = if (searchText.isEmpty()) {
+                dataSource.fetchMovies(page)
+            } else {
+                dataSource.searchMovies(searchText, page)
+            }
             if (response.status == Result.Status.SUCCESS) {
                 val results = response.data!!.results
                 dao.insertAll(results)

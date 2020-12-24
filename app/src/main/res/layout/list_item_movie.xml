@@ -9,6 +9,10 @@
             type="android.view.View.OnClickListener" />
 
         <variable
+            name="onFavroiteClickListner"
+            type="android.view.View.OnClickListener" />
+
+        <variable
             name="movie"
             type="com.andromesh.movieslistassignment.movies.data.Movie" />
 
@@ -29,9 +33,11 @@
                 android:id="@+id/ibFavorite"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_favorite_filled"
+                android:background="@color/trasparent"
+                android:src="@drawable/ic_favorite_hollow"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/ivPoster">
 
             </ImageButton>
 
@@ -42,21 +48,25 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_launcher_background"
                 app:imageFromUrl="@{movie.Companion.getPath(movie.poster_path)}"
+                app:layout_constraintBottom_toTopOf="@+id/tvName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="8dp"
+                android:textSize="14sp"
+                android:maxLines="2"
+                android:minLines="2"
+                android:padding="4dp"
                 android:text="@{movie.title}"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ibFavorite"
                 app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

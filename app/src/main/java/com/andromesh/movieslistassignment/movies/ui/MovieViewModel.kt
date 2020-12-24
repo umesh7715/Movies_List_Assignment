@@ -6,15 +6,17 @@ import com.andromesh.movieslistassignment.movies.data.MovieRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 
-class MovieViewModel @Inject constructor(private val repository: MovieRepository,
-                                         @CoroutineScropeIO private val ioCoroutineScope: CoroutineScope)
-    : ViewModel() {
+class MovieViewModel @Inject constructor(
+    private val repository: MovieRepository,
+    @CoroutineScropeIO private val ioCoroutineScope: CoroutineScope
+) : ViewModel() {
 
-    lateinit var imDBID: String
+    var id by Delegates.notNull<Int>()
 
-    val movie by lazy { repository.observeMovie(imDBID) }
+    val movie by lazy { repository.observeMovieDetals(id) }
 
     /**
      * Cancel all coroutines when the ViewModel is cleared.
