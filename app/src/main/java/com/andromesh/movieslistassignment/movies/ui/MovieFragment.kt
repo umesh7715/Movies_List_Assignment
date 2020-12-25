@@ -4,16 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.andromesh.movieslistassignment.MainActivity
+import com.andromesh.movieslistassignment.R
 import com.andromesh.movieslistassignment.database.Result
 import com.andromesh.movieslistassignment.databinding.MovieFragmentBinding
 import com.andromesh.movieslistassignment.di.Injectable
 import com.andromesh.movieslistassignment.di.injectViewModel
+import com.andromesh.movieslistassignment.movies.data.Movie
 import com.andromesh.movieslistassignment.ui_utils.hide
 import com.andromesh.movieslistassignment.ui_utils.show
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -27,6 +33,14 @@ class MovieFragment : Fragment(), Injectable {
 
     private lateinit var binding: MovieFragmentBinding
 
+    override fun onResume() {
+        super.onResume()
+
+        val imageView: ImageView =
+            (activity as MainActivity).findViewById(R.id.ivParallxedImage) as ImageView
+        imageView.visibility = View.VISIBLE
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,8 +49,14 @@ class MovieFragment : Fragment(), Injectable {
     ): View? {
 
         id = arguments?.let { MovieFragmentArgs.fromBundle(it).id }!!
-        (activity as MainActivity).supportActionBar?.title =
-            arguments?.let { MovieFragmentArgs.fromBundle(it).name }
+
+        var applayout =
+            (activity as MainActivity).findViewById(R.id.appbar) as CollapsingToolbarLayout
+        applayout.title = arguments?.let { MovieFragmentArgs.fromBundle(it).name }
+
+
+        val imageView: ImageView =
+            (activity as MainActivity).findViewById(R.id.ivParallxedImage) as ImageView
 
 
         movieViewModel = injectViewModel(viewModelFactory)
@@ -50,6 +70,14 @@ class MovieFragment : Fragment(), Injectable {
                 Result.Status.SUCCESS -> {
                     binding.progressBar.hide()
                     binding.movieDetails = result.data
+
+                    val url = result.data?.poster_path?.let { Movie.getPath(it) }
+
+                    Glide.with(imageView.context)
+                        .load(url)
+                        .centerCrop()
+                        .transition(DrawableTransitionOptions.withCrossFade())
+                        .into(imageView)
 
                 }
                 Result.Status.LOADING -> binding.progressBar.show()

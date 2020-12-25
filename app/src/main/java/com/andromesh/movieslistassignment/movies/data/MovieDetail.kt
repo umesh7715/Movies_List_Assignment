@@ -1,50 +1,62 @@
 package com.andromesh.movieslistassignment.movies.data
 
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "movie_detail")
 data class MovieDetail(
 
-        @field:SerializedName("Title")
-        val title: String,
+    @NotNull
+    @field:SerializedName("adult")
+    val adult: Boolean,
 
-        @field:SerializedName("Released")
-        val released: String,
+    @NotNull
+    @PrimaryKey
+    @field:SerializedName("id")
+    val id: Int,
 
-        @field:SerializedName("Runtime")
-        val runtime: String,
 
-        @field:SerializedName("Genre")
-        val genre: String,
+    @NotNull
+    @field:SerializedName("original_title")
+    val original_title: String,
 
-        @field:SerializedName("Actors")
-        val actors: String,
+    @Nullable
+    @field:SerializedName("overview")
+    val overview: String,
 
-        @field:SerializedName("Director")
-        val director: String,
+    @Nullable
+    @field:SerializedName("poster_path")
+    var poster_path: String,
 
-        @field:SerializedName("Plot")
-        val plot: String,
+    @NotNull
+    @field:SerializedName("title")
+    val title: String,
 
-        @field:SerializedName("Language")
-        val language: String,
+    @Nullable
+    @field:SerializedName("tagline")
+    val tagline: String,
 
-        @field:SerializedName("Poster")
-        val poster: String,
+    @NotNull
+    @field:SerializedName("vote_average")
+    val vote_average: Double,
 
-        @field:SerializedName("imdbRating")
-        val imdbRating: String,
+    @Nullable
+    var isFavorite: Boolean,
 
-        @PrimaryKey
-        @field:SerializedName("imdbID")
-        val imdbID: String
+    @NotNull
+    @field:SerializedName("production_companies")
+    var production_companies: List<ProductionCompanies>
 
 
 ) {
 
-    override fun toString(): String {
-        return "MovieDetail(title='$title', released='$released', runtime='$runtime', genre='$genre', actors='$actors', director='$director', plot='$plot', language='$language', poster='$poster', imdbRating='$imdbRating', imdbID='$imdbID')"
+    companion object {
+
+        fun getPath(path: String): String {
+            return "https://image.tmdb.org/t/p/w500$path"
+        }
     }
 }

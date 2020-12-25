@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.andromesh.movieslistassignment.MainActivity
 import com.andromesh.movieslistassignment.R
 import com.andromesh.movieslistassignment.databinding.MoviesFragmentBinding
 import com.andromesh.movieslistassignment.di.Injectable
@@ -18,6 +20,7 @@ import com.andromesh.movieslistassignment.ui_utils.GridSpacingItemDecoration
 import com.andromesh.movieslistassignment.ui_utils.VerticalItemDecoration
 import com.andromesh.movieslistassignment.ui_utils.hide
 import com.andromesh.movieslistassignment.util.ConnectivityUtil
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import javax.inject.Inject
 
 class MoviesFragment : Fragment(), Injectable {
@@ -46,6 +49,18 @@ class MoviesFragment : Fragment(), Injectable {
 
     private var isLinearLayoutManager: Boolean = false
 
+    private lateinit var applayout: CollapsingToolbarLayout
+    private lateinit var imageView: ImageView
+
+
+    override fun onResume() {
+        super.onResume()
+
+        imageView.visibility = View.GONE
+        applayout.title = activity?.getString(R.string.movies_list)
+
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -59,6 +74,11 @@ class MoviesFragment : Fragment(), Injectable {
 
         binding = MoviesFragmentBinding.inflate(inflater, container, false)
         context ?: return binding.root
+
+        applayout =
+            (activity as MainActivity).findViewById(R.id.appbar) as CollapsingToolbarLayout
+        imageView = (activity as MainActivity).findViewById(R.id.ivParallxedImage) as ImageView
+
 
         linearLayoutManager = LinearLayoutManager(activity)
         gridLayoutManager = GridLayoutManager(activity, SPAN_COUNT)

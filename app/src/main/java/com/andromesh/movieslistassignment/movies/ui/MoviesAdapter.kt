@@ -41,7 +41,7 @@ class MoviesAdapter : PagedListAdapter<Movie, MoviesAdapter.ViewHolder>(MovieDif
     private fun createOnClickListener(movie: Movie): View.OnClickListener {
         return View.OnClickListener {
             val direction =
-                MoviesFragmentDirections.actionMoviesFragmentToMovieFragment(movie.id, movie.title)
+                MoviesFragmentDirections.actionMoviesFragmentToMovieFragment(movie.id, movie.original_title)
             it.findNavController().navigate(direction)
 
         }

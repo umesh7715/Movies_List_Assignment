@@ -3,7 +3,7 @@
     <string name="navigation_drawer_header_title">Title</string>
 
     <string name="movies_navigation_item">Movies</string>
-    <string name="movies_list">Searched Movies</string>
+    <string name="movies_list">Movies</string>
     <string name="movie_details">Movie Details</string>
     <string name="password_hint">Type your password</string>
     <string name="username_hint">Type your username</string>

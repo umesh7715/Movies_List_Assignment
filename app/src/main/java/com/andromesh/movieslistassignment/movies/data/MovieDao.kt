@@ -18,7 +18,7 @@ interface MovieDao {
     fun getSearchedPagedMovies(seracherText: String): DataSource.Factory<Int, Movie>
 
 
-    @Query("SELECT * FROM movie_detail WHERE imdbID= :id ")
+    @Query("SELECT * FROM movie_detail WHERE id= :id ")
     fun getMovieById(id: Int): LiveData<MovieDetail>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
