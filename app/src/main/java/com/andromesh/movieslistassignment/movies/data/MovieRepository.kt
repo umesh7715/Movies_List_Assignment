@@ -6,6 +6,8 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.andromesh.movieslistassignment.database.resultLiveData
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -52,6 +54,16 @@ class MovieRepository @Inject constructor(
         networkCall = { movieRemoteDataSource.getMovieDetails(id) },
         saveCallResult = { movieDao.insertMovieDetails(it) }
     ).distinctUntilChanged()
+
+    fun updateMovie(
+        movie: Movie,
+        ioCoroutineScope: CoroutineScope
+    ) {
+        ioCoroutineScope.launch {
+            movieDao.updateMovie(movie)
+        }
+    }
+
 
 
 }

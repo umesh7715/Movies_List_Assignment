@@ -3,30 +3,35 @@ package com.andromesh.movieslistassignment.movies.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import androidx.navigation.findNavController
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.andromesh.movieslistassignment.R
+import com.andromesh.movieslistassignment.binding.ImageClickHandler
 import com.andromesh.movieslistassignment.databinding.ListItemMovieBinding
 import com.andromesh.movieslistassignment.movies.data.Movie
 
 class MoviesAdapter : PagedListAdapter<Movie, MoviesAdapter.ViewHolder>(MovieDiffCallback()) {
 
     private lateinit var rvMovies: RecyclerView
+    private lateinit var moviesViewModel: MoviesViewModel
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = getItem(position)
 
         movie?.let {
             holder.apply {
-                bind(createOnClickListener(movie), movie, isGridLayoutManager())
+                bind(
+                    createOnClickListener(movie),
+                    movie,
+                    moviesViewModel
+                )
                 itemView.tag = movie
             }
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -41,19 +46,10 @@ class MoviesAdapter : PagedListAdapter<Movie, MoviesAdapter.ViewHolder>(MovieDif
     private fun createOnClickListener(movie: Movie): View.OnClickListener {
         return View.OnClickListener {
             val direction =
-                MoviesFragmentDirections.actionMoviesFragmentToMovieFragment(movie.id, movie.original_title)
+                MoviesFragmentDirections.actionMoviesFragmentToMovieFragment(movie.id, movie.title)
             it.findNavController().navigate(direction)
 
         }
-    }
-
-    private fun onFavoriteClickListner(view: ImageButton, movie: Movie) {
-        if (movie.isFavorite) {
-            view.setImageResource(R.drawable.ic_favorite_filled)
-        } else {
-            view.setImageResource(R.drawable.ic_favorite_hollow)
-        }
-        movie.isFavorite = !movie.isFavorite
     }
 
 
@@ -64,17 +60,23 @@ class MoviesAdapter : PagedListAdapter<Movie, MoviesAdapter.ViewHolder>(MovieDif
 
     private fun isGridLayoutManager() = rvMovies.layoutManager is GridLayoutManager
 
+    fun setViewModelToBinding(moviesViewModel: MoviesViewModel) {
+        this.moviesViewModel = moviesViewModel
+    }
+
 
     class ViewHolder(private val binding: ListItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
             listener: View.OnClickListener, item: Movie,
-            isGridLayoutManager: Boolean
+            moviesViewModel: MoviesViewModel
         ) {
             binding.apply {
                 onClickListner = listener
                 movie = item
+                onFavroiteClickListner = ImageClickHandler()
+                viewModel = moviesViewModel
                 executePendingBindings()
             }
         }

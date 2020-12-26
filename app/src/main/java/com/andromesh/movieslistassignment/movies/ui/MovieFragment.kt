@@ -32,12 +32,10 @@ class MovieFragment : Fragment(), Injectable {
     private lateinit var id: Number
 
     private lateinit var binding: MovieFragmentBinding
+    private lateinit var imageView: ImageView
 
     override fun onResume() {
         super.onResume()
-
-        val imageView: ImageView =
-            (activity as MainActivity).findViewById(R.id.ivParallxedImage) as ImageView
         imageView.visibility = View.VISIBLE
     }
 
@@ -55,8 +53,7 @@ class MovieFragment : Fragment(), Injectable {
         applayout.title = arguments?.let { MovieFragmentArgs.fromBundle(it).name }
 
 
-        val imageView: ImageView =
-            (activity as MainActivity).findViewById(R.id.ivParallxedImage) as ImageView
+        imageView = (activity as MainActivity).findViewById(R.id.ivParallxedImage) as ImageView
 
 
         movieViewModel = injectViewModel(viewModelFactory)

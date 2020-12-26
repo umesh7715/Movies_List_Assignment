@@ -53,6 +53,10 @@ data class Movie(
         return "Movie(adult=$adult,  id='$id', original_language='$original_language', original_title='$original_title', overview='$overview', poster_path='$poster_path', title='$title', vote_count=$vote_count)"
     }
 
+    fun getPath(): String {
+        return "https://image.tmdb.org/t/p/w500$poster_path"
+    }
+
     init {
         poster_path = "https://image.tmdb.org/t/p/w500$poster_path"
     }

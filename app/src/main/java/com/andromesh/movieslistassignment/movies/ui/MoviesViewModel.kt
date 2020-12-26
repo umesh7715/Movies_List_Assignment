@@ -4,9 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.andromesh.movieslistassignment.di.CoroutineScropeSupervisor
+import com.andromesh.movieslistassignment.movies.data.Movie
 import com.andromesh.movieslistassignment.movies.data.MovieRepository
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
@@ -32,5 +35,10 @@ class MoviesViewModel @Inject constructor(private val movieRepository: MovieRepo
         super.onCleared()
         ioCoroutineScope.cancel()
     }
+
+    fun updateMovie(movie: Movie) {
+        movieRepository.updateMovie(movie, ioCoroutineScope)
+    }
+
 
 }

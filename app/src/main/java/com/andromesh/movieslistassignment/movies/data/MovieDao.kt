@@ -2,10 +2,7 @@ package com.andromesh.movieslistassignment.movies.data
 
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface MovieDao {
@@ -21,14 +18,17 @@ interface MovieDao {
     @Query("SELECT * FROM movie_detail WHERE id= :id ")
     fun getMovieById(id: Int): LiveData<MovieDetail>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(movie: Movie)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovieDetails(movieDetail: MovieDetail)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(results: List<Movie>)
+
+    @Update
+    suspend fun updateMovie(movie: Movie)
 
 
 }

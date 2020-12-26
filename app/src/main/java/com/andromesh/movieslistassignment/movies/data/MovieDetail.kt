@@ -43,20 +43,60 @@ data class MovieDetail(
     @field:SerializedName("vote_average")
     val vote_average: Double,
 
+    @NotNull
+    @field:SerializedName("runtime")
+    val runtime: Int,
+
+
     @Nullable
     var isFavorite: Boolean,
 
     @NotNull
     @field:SerializedName("production_companies")
-    var production_companies: List<ProductionCompanies>
+    var production_companies: List<ProductionCompanies>,
+
+    @NotNull
+    @field:SerializedName("genres")
+    var genres: List<Genre>
 
 
 ) {
+
+    fun convertTime(): String {
+
+        return "$runtime Minutes"
+    }
+
+    fun convertGenres(): String {
+
+        var genreString = ""
+        for (genre in genres) {
+            genreString += genre.name + ","
+        }
+
+        return genreString.substring(0, genreString.lastIndex)
+
+    }
+
+    fun convertProductions(): String {
+
+        var productionString = ""
+        for (production in production_companies) {
+            productionString += production.name + ","
+        }
+
+        return if (productionString.isEmpty()) "" else productionString.substring(
+            0, productionString.lastIndex
+        )
+
+    }
 
     companion object {
 
         fun getPath(path: String): String {
             return "https://image.tmdb.org/t/p/w500$path"
         }
+
+
     }
 }
