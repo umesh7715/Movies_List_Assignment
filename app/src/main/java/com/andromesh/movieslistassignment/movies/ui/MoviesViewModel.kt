@@ -7,14 +7,14 @@ import com.andromesh.movieslistassignment.di.CoroutineScropeSupervisor
 import com.andromesh.movieslistassignment.movies.data.Movie
 import com.andromesh.movieslistassignment.movies.data.MovieRepository
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-class MoviesViewModel @Inject constructor(private val movieRepository: MovieRepository,
-                                          @CoroutineScropeSupervisor private val ioCoroutineScope: CoroutineScope) : ViewModel() {
+class MoviesViewModel @Inject constructor(
+    private val movieRepository: MovieRepository,
+    @CoroutineScropeSupervisor private val ioCoroutineScope: CoroutineScope
+) : ViewModel() {
 
 
     var connectivityAvailable: Boolean = false
@@ -24,7 +24,8 @@ class MoviesViewModel @Inject constructor(private val movieRepository: MovieRepo
 
     val moviesList = Transformations.switchMap(searchFilterText) { input ->
         movieRepository.observerPagedMovies(
-                connectivityAvailable, input, ioCoroutineScope)
+            connectivityAvailable, input, ioCoroutineScope
+        )
     }
 
 
@@ -39,6 +40,8 @@ class MoviesViewModel @Inject constructor(private val movieRepository: MovieRepo
     fun updateMovie(movie: Movie) {
         movieRepository.updateMovie(movie, ioCoroutineScope)
     }
+
+    var favoriteMovies = movieRepository.getFavorites()
 
 
 }

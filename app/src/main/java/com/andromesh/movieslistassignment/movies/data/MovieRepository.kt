@@ -2,11 +2,13 @@ package com.andromesh.movieslistassignment.movies.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.liveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import com.andromesh.movieslistassignment.api.BaseDataSource
 import com.andromesh.movieslistassignment.database.resultLiveData
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +17,7 @@ import javax.inject.Singleton
 class MovieRepository @Inject constructor(
     private val movieDao: MovieDao,
     private val movieRemoteDataSource: MovieRemoteDataSource
-) {
+) : BaseDataSource() {
 
     fun observerPagedMovies(
         connectivityAvailable: Boolean, searchText: String,
@@ -64,6 +66,10 @@ class MovieRepository @Inject constructor(
         }
     }
 
+    fun getFavorites() = liveData(Dispatchers.IO) {
+        val id = getResult { movieDao.getFavoriteMovies() }
+        emit(id)
+    }
 
 
 }

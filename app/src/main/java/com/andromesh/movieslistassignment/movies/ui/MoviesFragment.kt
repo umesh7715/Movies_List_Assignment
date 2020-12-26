@@ -21,7 +21,6 @@ import com.andromesh.movieslistassignment.ui_utils.VerticalItemDecoration
 import com.andromesh.movieslistassignment.ui_utils.hide
 import com.andromesh.movieslistassignment.util.ConnectivityUtil
 import com.google.android.material.appbar.CollapsingToolbarLayout
-import timber.log.Timber
 import javax.inject.Inject
 
 class MoviesFragment : Fragment(), Injectable {
@@ -105,6 +104,11 @@ class MoviesFragment : Fragment(), Injectable {
                 return true
             }
         })
+
+        moviesViewModel.favoriteMovies.observe(viewLifecycleOwner) {
+
+        }
+
 
         setHasOptionsMenu(true)
         return binding.root

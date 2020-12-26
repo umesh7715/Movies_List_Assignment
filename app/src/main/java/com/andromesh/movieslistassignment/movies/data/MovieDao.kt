@@ -3,6 +3,7 @@ package com.andromesh.movieslistassignment.movies.data
 import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
+import retrofit2.Response
 
 @Dao
 interface MovieDao {
@@ -29,6 +30,9 @@ interface MovieDao {
 
     @Update
     suspend fun updateMovie(movie: Movie)
+
+    @Query("SELECT * FROM MOVIE WHERE isFavorite = 1 ")
+    suspend fun getFavoriteMovies(): Response<List<Movie>>
 
 
 }
