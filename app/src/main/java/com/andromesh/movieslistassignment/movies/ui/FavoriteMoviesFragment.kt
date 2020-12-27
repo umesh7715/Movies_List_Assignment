@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.observe
@@ -14,27 +13,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.andromesh.movieslistassignment.MainActivity
 import com.andromesh.movieslistassignment.R
-import com.andromesh.movieslistassignment.databinding.MoviesFragmentBinding
+import com.andromesh.movieslistassignment.databinding.FavoritesMoviesFragmentBinding
 import com.andromesh.movieslistassignment.di.Injectable
 import com.andromesh.movieslistassignment.di.injectViewModel
 import com.andromesh.movieslistassignment.ui_utils.GridSpacingItemDecoration
 import com.andromesh.movieslistassignment.ui_utils.VerticalItemDecoration
 import com.andromesh.movieslistassignment.ui_utils.hide
 import com.andromesh.movieslistassignment.util.ConnectivityUtil
-import com.bumptech.glide.Glide
-import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import javax.inject.Inject
 
-
-class MoviesFragment : Fragment(), Injectable {
-
+class FavoriteMoviesFragment : Fragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var moviesViewModel: MoviesViewModel
 
-    private lateinit var binding: MoviesFragmentBinding
+    private lateinit var binding: FavoritesMoviesFragmentBinding
 
     private val adapter: MoviesAdapter by lazy { MoviesAdapter() }
 
@@ -48,7 +43,7 @@ class MoviesFragment : Fragment(), Injectable {
     private lateinit var gridLayoutManager: GridLayoutManager
     private val gridDecoration: RecyclerView.ItemDecoration by lazy {
         GridSpacingItemDecoration(
-            SPAN_COUNT, resources.getDimension(R.dimen.margin_grid).toInt()
+            MoviesFragment.SPAN_COUNT, resources.getDimension(R.dimen.margin_grid).toInt()
         )
     }
 
@@ -56,21 +51,14 @@ class MoviesFragment : Fragment(), Injectable {
 
     private lateinit var applayout: CollapsingToolbarLayout
     private lateinit var imageView: ImageView
-    private lateinit var abr: AppBarLayout
-    private lateinit var clMain: CoordinatorLayout
-
 
     override fun onResume() {
         super.onResume()
 
-        Glide.with(imageView.context)
-            .clear(imageView)
         imageView.visibility = View.GONE
-
-        applayout.title = activity?.getString(R.string.movies_list)
+        applayout.title = activity?.getString(R.string.favorite_movies_tittle)
 
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -82,68 +70,33 @@ class MoviesFragment : Fragment(), Injectable {
 
         moviesViewModel.connectivityAvailable = ConnectivityUtil.isConnected(requireContext())
 
-        binding = MoviesFragmentBinding.inflate(inflater, container, false)
+        binding = FavoritesMoviesFragmentBinding.inflate(inflater, container, false)
         context ?: return binding.root
 
         applayout =
             (activity as MainActivity).findViewById(R.id.appbar) as CollapsingToolbarLayout
-
-        abr =
-            (activity as MainActivity).findViewById(R.id.abr) as AppBarLayout
-
         imageView = (activity as MainActivity).findViewById(R.id.ivParallxedImage) as ImageView
-
-        clMain = (activity as MainActivity).findViewById(R.id.clMain) as CoordinatorLayout
-
-
-
 
 
         linearLayoutManager = LinearLayoutManager(activity)
-        gridLayoutManager = GridLayoutManager(activity, SPAN_COUNT)
+        gridLayoutManager = GridLayoutManager(activity, MoviesFragment.SPAN_COUNT)
         setLayoutManager()
 
         binding.rvMovies.adapter = adapter
-        subscribeUi(adapter)
+        //subscribeUi(adapter)
 
         adapter.setViewModelToBinding(moviesViewModel);
 
-        binding.searchView.setOnQueryTextListener(object :
-            androidx.appcompat.widget.SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText!!.isNotEmpty()) {
-                    moviesViewModel.searchFilterText.value = newText
-                }
-                moviesViewModel.connectivityAvailable =
-                    ConnectivityUtil.isConnected(requireContext())
-                return true
-            }
-        })
 
         moviesViewModel.favoriteMovies.observe(viewLifecycleOwner) {
-
+            binding.progressBar.hide()
+            binding.textView.text = "Total favorite movies " + it.size
         }
 
 
         setHasOptionsMenu(true)
         return binding.root
-    }
-
-    private fun subscribeUi(adapter: MoviesAdapter) {
-
-        moviesViewModel.moviesList.observe(viewLifecycleOwner) {
-            binding.progressBar.hide()
-            try {
-                adapter.submitList(it)
-            } catch (e: Exception) {
-
-            }
-        }
-
     }
 
     private fun setLayoutManager() {
@@ -172,6 +125,5 @@ class MoviesFragment : Fragment(), Injectable {
     companion object {
         const val SPAN_COUNT = 3
     }
-
 
 }

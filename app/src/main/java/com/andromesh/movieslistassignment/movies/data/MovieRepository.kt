@@ -67,7 +67,7 @@ class MovieRepository @Inject constructor(
     }
 
     fun getFavorites() = liveData(Dispatchers.IO) {
-        val id = getResult { movieDao.getFavoriteMovies() }
+        val id = movieDao.getFavoriteMovies()
         emit(id)
     }
 

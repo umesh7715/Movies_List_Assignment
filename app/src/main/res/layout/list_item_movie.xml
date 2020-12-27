@@ -34,21 +34,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageButton
+            <CheckBox
                 android:id="@+id/ibFavorite"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:background="@color/trasparent"
-                android:clickable="true"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/like_button_selector"
+                android:backgroundTint="@color/colorAccent"
+                android:button="@null"
+                android:checked="false"
                 android:onClick="@{(v) -> onFavroiteClickListner.onImageButtonClicked(v,movie,viewModel)}"
-                android:src="@drawable/ic_favorite_hollow"
-                android:tint="@color/colorAccent"
+                android:stateListAnimator="@xml/like_animator"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivPoster"
-                app:setFavoriteIcon="@{movie.favorite}">
+                app:layout_constraintTop_toBottomOf="@+id/ivPoster">
 
-            </ImageButton>
+            </CheckBox>
 
 
             <ImageView

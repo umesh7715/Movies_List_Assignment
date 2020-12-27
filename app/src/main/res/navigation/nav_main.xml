@@ -17,6 +17,9 @@
 
 
         </action>
+        <action
+            android:id="@+id/action_moviesFragment_to_favoriteMoviesFragment2"
+            app:destination="@id/favoriteMoviesFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieFragment"
@@ -32,6 +35,11 @@
             app:argType="string" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/favoriteMoviesFragment"
+        android:name="com.andromesh.movieslistassignment.movies.ui.FavoriteMoviesFragment"
+        android:label="@string/favorite_movies_tittle" />
 
 
 </navigation>

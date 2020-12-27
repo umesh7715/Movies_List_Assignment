@@ -2,7 +2,6 @@ package com.andromesh.movieslistassignment
 
 
 import android.os.Bundle
-import android.view.Menu
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,12 +16,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.andromesh.movieslistassignment.R.id
+import com.andromesh.movieslistassignment.R.layout
 import com.andromesh.movieslistassignment.databinding.ActivityMainBinding
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
-import com.andromesh.movieslistassignment.R.id
-import com.andromesh.movieslistassignment.R.layout
 
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
@@ -33,7 +32,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
-
+    private lateinit var binding: ActivityMainBinding
     override fun supportFragmentInjector() = dispatchingAndroidInjector
 
     @Inject
@@ -43,8 +42,10 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
 
 
-        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this,
-            layout.activity_main)
+        binding = DataBindingUtil.setContentView(
+            this,
+            layout.activity_main
+        )
         drawerLayout = binding.drawerLayout
 
         navController = findNavController(id.nav_fragment)
@@ -59,7 +60,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         binding.bnvMenu.setupWithNavController(navController)
 
         val hView: View = binding.navigationView.getHeaderView(0)
-        val loggedInUserNameTV: TextView = hView.findViewById<View>(id.tvLoggedInUserName) as TextView
+        val loggedInUserNameTV: TextView =
+            hView.findViewById<View>(id.tvLoggedInUserName) as TextView
         loggedInUserNameTV.text = "Umesh Saravane"
 
 
@@ -76,6 +78,5 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             super.onBackPressed()
         }
     }
-
 
 }
